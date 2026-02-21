@@ -1,32 +1,64 @@
 
-import { Container, CssBaseline } from '@mui/material';
-import { useEffect,useState } from 'react';
+import { Box, Container, CssBaseline, Typography } from '@mui/material';
+import { useState } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
 import ActivityDashboard from '../../features/activities/Dashbaord/ActivityDashboard';
+import { useQuery } from '@tanstack/react-query';
+import { useActivities } from '../../lib/hooks/useActivities';
 
   function App() {
-    
-    const[activities, setActivities] = useState<Activity[]>([]);
+    const [selectedActivity,setSelectedActivity] = useState<Activity | undefined>(undefined);
+    const [editMode,setEditMode] = useState(false);
+    const {activities, isPending} = useActivities();
 
-    useEffect(() => {
-       axios.get<Activity[]>('https://localhost:5001/api/activities')
-      .then(response => setActivities(response.data))
-      return () => {}
-    }, [])
+  
+    const handleSelectActivity = (id:string) => {
+      setSelectedActivity(activities!.find(x => x.id === id));
+    }
 
+    const handleCancelSelectActivity = () => {
+      setSelectedActivity(undefined);
+    }
     
+    const handleOpenForm = (id?:string) => {
+      if (id) handleSelectActivity(id);
+      else handleCancelSelectActivity();
+      setEditMode(true);
+    }
+
+    const handleFormClose = () => {
+      setEditMode(false);
+    }
+
+    const handleDelete = (id:string) => {
+      console.log(id);
+    }
+
 
 
     return (
-      <>
+      <Box sx={{bgcolor:'#eeeeee', minHeight: '100vh'}}>
           <CssBaseline />
-          <Navbar />
+          <Navbar openForm={handleOpenForm} />
           <Container maxWidth='xl' sx={{mt:3}}>
-            <ActivityDashboard activities={activities} />
+              {!activities || isPending ? (
+                <Typography>Loading..</Typography>
+              ): (
+              <ActivityDashboard 
+              activities={activities} 
+              selectActivity={handleSelectActivity}
+              cancelSelectActivity = {handleCancelSelectActivity}
+              selectedActivity = {selectedActivity} 
+              editMode={editMode}
+              openForm={handleOpenForm}
+              closeForm={handleFormClose}
+              deleteActivity={handleDelete}
+              /> )}
+              
           </Container>
           
-      </>
+      </Box>
       
     )
 }

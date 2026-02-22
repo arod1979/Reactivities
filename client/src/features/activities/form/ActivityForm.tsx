@@ -5,11 +5,12 @@ import { useActivities } from "../../../lib/hooks/useActivities";
 type Props = {
     activity?: Activity
     closeForm: () => void
+    submitForm: (activity:Activity) => void
 }
 
 
 
-export default function ActivityForm({ activity, closeForm }: Props) {
+export default function ActivityForm({ activity, closeForm, submitForm }: Props) {
 
     const { updateActivity } = useActivities();
 
@@ -33,12 +34,12 @@ export default function ActivityForm({ activity, closeForm }: Props) {
                 Create Activity
             </Typography>
             <Box component='form' onSubmit={handleSubmit} display='flex' flexDirection='column' gap={3}>
-                <TextField name='title' label='Title' value={activity?.title} />
-                <TextField name='description' label='Description' multiline rows={3} />
-                <TextField name='category' label='Category' />
-                <TextField name='date' label='Date' type="date" />
-                <TextField name='city' label='City' />
-                <TextField name='venue' label='Venue' />
+                <TextField name='title' defaultValue={activity?.title} label='Title' />
+                <TextField name='description' defaultValue={activity?.description} label='Description' multiline rows={3} />
+                <TextField name='category' defaultValue={activity?.category} label='Category' />
+                <TextField name='date' defaultValue={activity?.date} label='Date' type="date" />
+                <TextField name='city' defaultValue={activity?.city} label='City' />
+                <TextField name='venue' defaultValue={activity?.venue} label='Venue' />
                 <Box display='flex' justifyContent='end' gap={3}>
                     <Button onClick={closeForm} color='inherit'>Cancel</Button>
                     <Button type="submit" color='success' variant="contained" disabled={updateActivity.isPending}>

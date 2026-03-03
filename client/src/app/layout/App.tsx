@@ -39,15 +39,7 @@ import axios from 'axios';
       setEditMode(false);
     }
 
-    const handleSubmitForm = (activity:Activity) => {
-      console.log(activity)
-      setEditMode(false);
-    }
 
-    const handleDelete = (id:string) => {
-      console.log(id);
-     
-    }
 
 
 
@@ -67,8 +59,8 @@ import axios from 'axios';
               editMode={editMode}
               openForm={handleOpenForm}
               closeForm={handleFormClose}
-              deleteActivity={handleDelete}
-              submitForm={handleSubmitForm}
+            
+              
               
               /> )}
               

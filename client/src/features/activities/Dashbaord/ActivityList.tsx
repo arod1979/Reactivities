@@ -15,7 +15,7 @@ export default function ActivityList({activities, selectActivity, deleteActivity
         {activities.map(activity => (
             <ActivityCard key={activity.id} activity={activity} 
             selectActivity={selectActivity} 
-            deleteActivity = {deleteActivity}
+            
             />
         ))}
 

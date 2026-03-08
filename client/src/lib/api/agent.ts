@@ -8,7 +8,7 @@ const sleep = (delay:number) => {
 }
 
 const agent = axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL
+    baseURL: import.meta.env.VITE_API_URL
 });
 
 agent.interceptors.response.use(async response => {

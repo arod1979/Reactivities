@@ -11,7 +11,9 @@ export const useActivities = (id?:string) => {
           const response = await agent.get<Activity[]>('/activities');
           console.log('API', response.data);
           return response.data;
-        }
+        },
+        staleTime: 1000 * 60 *5,
+        enabled: !id && location.pathname === "/activities"
       })
 
       const {data:activity,isLoading:isLoadingActivity} = useQuery(
